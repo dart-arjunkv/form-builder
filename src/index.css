@@ -1,0 +1,146 @@
+@font-face {
+    font-family: 'Montserrat';
+    src: url('./assets/fonts/Montserrat-Regular.ttf') format('truetype');
+    font-weight: 400;
+    font-style: normal;
+}
+  
+  @font-face {
+    font-family: 'Montserrat';
+    src: url('./assets/fonts/Montserrat-Medium.ttf') format('truetype');
+    font-weight: 500;
+    font-style: normal;
+}
+  
+  @font-face {
+    font-family: 'Montserrat';
+    src: url('./assets/fonts/Montserrat-Bold.ttf') format('truetype');
+    font-weight: 700;
+    font-style: normal;
+}
+  
+:root {
+    --primary-color: #007bff;
+    --primary-color-dark: #0063cc;
+    --primary-color-light: #4da3ff;
+  
+    --red-color: #d42b2b;
+    --green-color: #228B22;
+  
+    --black-color: #101010;
+    --white-color: #F5F5F5;
+  
+    --grey-color-dark: #696969;
+    --grey-color: #C0C0C0;
+    --grey-color-light: #F0F0F0;
+  
+    --primary-font: 'Montserrat', sans-serif;
+    --font-weight-title: 700;
+    --font-weight-body: 400;
+    --font-weight-bold: 500;
+}
+  
+*,
+*::before,
+*::after {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+  
+body,
+h1,
+h2,
+h3,
+h4,
+p,
+figure,
+blockquote,
+dl,
+dd {
+    margin: 0;
+}
+  
+ul[role='list'],
+ol[role='list'] {
+    list-style: none;
+}
+  
+html:focus-within {
+    scroll-behavior: smooth;
+}
+  
+body {
+    min-height: 100vh;
+    font-family: var(--primary-font);
+    text-rendering: optimizeSpeed;
+    line-height: 1.5;
+    letter-spacing: .5px;
+    background-color: var(--white-color);
+    overflow: hidden;
+  
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+}
+  
+a:not([class]) {
+    text-decoration-skip-ink: auto;
+}
+  
+a {
+    text-decoration: none;
+}
+  
+img,
+picture {
+    max-width: 100%;
+    display: block;
+}
+  
+input,
+button,
+textarea,
+select {
+    font: inherit;
+    letter-spacing: inherit;
+}
+
+button {
+    background-color: var(--primary-color);
+    color: var(--white-color);
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: 200ms ease background-color,
+                200ms ease color;
+}
+  
+button:hover {
+    background-color: var(--primary-color-dark);
+}
+  
+::-webkit-input-placeholder,
+:-ms-input-placeholder,
+::-moz-placeholder,
+::placeholder {
+    font-family: var(--primary-font);
+    font-weight: var(--font-weight-bold);
+    font-size: .8rem;
+    color: color(neutral, 400);
+    letter-spacing: .5px;
+}
+  
+@media (prefers-reduced-motion: reduce) {
+    html:focus-within {
+        scroll-behavior: auto;
+    }
+      
+    *,
+    *::before,
+    *::after {
+        animation-duration: 0.01ms !important;
+        animation-iteration-count: 1 !important;
+        transition-duration: 0.01ms !important;
+        scroll-behavior: auto !important;
+    }
+}
