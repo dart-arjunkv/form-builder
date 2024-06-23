@@ -803,7 +803,7 @@ function Builder() {
     }
 
     const save = () => {
-        console.log('sjhbg')
+        console.log(formData)
     }
     return (
         <div className='builder'>
