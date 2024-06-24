@@ -30,11 +30,9 @@ function Render({ data }) {
             formItemHtml = (
                 <div>
                     <StyledFormItemWrapper $customstyles={customStyles}>
-                        <div className='builder__form-field-container'>
-                            {
-                                formItem.children.map(generateFormHtml)
-                            }
-                        </div>
+                        {
+                            formItem.children.map(generateFormHtml)
+                        }
                     </StyledFormItemWrapper>
                 </div>
             )

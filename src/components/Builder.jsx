@@ -1,4 +1,4 @@
-import { useRef, useState } from 'react'
+import { useEffect, useRef, useState } from 'react'
 import { nanoid } from 'nanoid'
 import styled, { css } from 'styled-components'
 import editIcon from '../assets/edit.svg'
@@ -172,25 +172,7 @@ const buttonStyle = `
     }
 `
 
-const containerStyle = `
-    & .builder__form-field-container {
-        margin: 1.2em 0;
-        min-height: 70px;
-        border: 2px dashed hsl(0, 0%, 77%);
-        border-radius: 3px;
-        position: relative;
-    }
-
-    & .builder__form-field-container::before {
-        content: 'Container';
-        position: absolute;
-        top: 0;
-        left: 0;
-        transform: translateY(-18px);
-        font-size: .8em;
-        color: hsl(0, 0%, 31%);
-    }
-`
+const containerStyle = ``
 
 const defaultStyles = {
     container: containerStyle,
@@ -233,9 +215,10 @@ const findIndexByUid = (items, uid) => {
     return null
 }
 
-function Builder() {
+function Builder({ build }) {
     const [formData, setFormData] = useState([])
     const dropPointRef = useRef(null)
+    const popupRef = useRef(null)
     const [popup, setPopup] = useState({ 
         show: false, 
         element: { type: null, dropPointUid: null, uid: null },
@@ -464,8 +447,8 @@ function Builder() {
                             <img src={deleteIcon} alt='delete icon'/>
                         </button>
                     </div>
+                    {type === 'hidden' ? ' Hidden input element' : ''}
                     <StyledFormItemWrapper $customstyles={customStyles}>
-                        {type === 'hidden' ? ' Hidden input element' : ''}
                         { label && <label htmlFor={id}>{label}</label> }
                         <input {...attr} type={type} id={id} />
                     </StyledFormItemWrapper>
@@ -474,14 +457,14 @@ function Builder() {
         } else if (type === 'container') {
             formItemHtml = (
                 <div
-                    className='form-item'
+                    className='form-item container'
                     onDrop={e => {
                         e.stopPropagation()
                         handleOnDrop(e, uid)
                     }}
                     onDragOver={handleOnDragOver}
                 >
-                    <div className='form-field-modify-options container'>
+                    <div className='form-field-modify-options'>
                         <button onClick={() => setStyleEditor(p => ({ ...p, show: true, uid, customStyles }))}>
                             <img src={paletteIcon} alt='palette icon'/>
                         </button>
@@ -490,11 +473,9 @@ function Builder() {
                         </button>
                     </div>
                     <StyledFormItemWrapper $customstyles={customStyles}>
-                        <div className='builder__form-field-container'>
-                            {
-                                formItem.children.map(generateFormHtml)
-                            }
-                        </div>
+                        {
+                            formItem.children.map(generateFormHtml)
+                        }
                     </StyledFormItemWrapper>
                 </div>
             )
@@ -803,8 +784,16 @@ function Builder() {
     }
 
     const save = () => {
-        console.log(formData)
+        build(formData)
+        setFormData([])
     }
+
+    useEffect(() => {
+        if (popup.show) {
+            popupRef.current.scrollTop = 0
+        }
+    }, [popup.show])
+
     return (
         <div className='builder'>
             <div className='builder__sidebar'>
@@ -878,7 +867,7 @@ function Builder() {
                 </div>
             }
             <div className={`builder__popup-bg${popup.show === true ? ' show' : ''}`}>
-                <div className='builder__popup'>
+                <div className='builder__popup' ref={popupRef}>
                     <form onSubmit={e => {
                         e.preventDefault()
                         if (popup.type === 'add') {
