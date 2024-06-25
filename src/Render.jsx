@@ -1,6 +1,5 @@
 import { useEffect, useRef, useState } from 'react'
 import styled, { css } from 'styled-components'
-import '../styles/render.css'
 
 const StyledFormItemWrapper = styled.div`
     ${
@@ -26,7 +25,36 @@ const findIndexByUid = (items, uid) => {
     return null
 }
 
-function Render({ data }) {
+const styledRenderContainer = styled.div`
+:root {
+    --primary-color: #874CCC;
+    --primary-color-dark: #763bb9;
+    --primary-color-light: #9658dc;
+
+    --red-color: #d42b2b;
+
+    --neutral-color-100: hsl(0, 0%, 95%);
+    --neutral-color-200: hsl(0, 0%, 90%);
+    --neutral-color-300: hsl(0, 0%, 77%);
+    --neutral-color-400: hsl(0, 0%, 62%);
+    --neutral-color-500: hsl(0, 0%, 46%);
+    --neutral-color-600: hsl(0, 0%, 31%);
+    --neutral-color-700: hsl(0, 0%, 23%);
+    --neutral-color-800: hsl(0, 0%, 19%);
+    --neutral-color-900: hsl(0, 0%, 13%);
+    --neutral-color-1000: hsl(0, 0%, 10%);
+
+    --primary-font: Verdana, sans-serif;
+}
+     .render .form-field-error {
+    padding: .2em 0;
+    color: var(--red-color);
+}
+
+
+`
+
+function Render({ form, submit }) {
     const [formData, setFormData] = useState([])
     const [loading, setLoading] = useState(true)
     const formDataInitialised = useRef(null)
@@ -142,8 +170,7 @@ function Render({ data }) {
 
         if (!hasError) {
             console.log('valid')
-        } else {
-            console.log('not valid')
+            submit(formData)
         }
     }
 
@@ -300,7 +327,7 @@ function Render({ data }) {
         if (loading && formDataInitialised.current === null) {
             formDataInitialised.current = true
             setFormData(p => {
-                const modifiedData = data.map(fi =>
+                const modifiedData = form.map(fi =>
                     fi.type === 'container' ?
                     {
                         ...fi,
@@ -321,11 +348,13 @@ function Render({ data }) {
     }, [])
 
     return (
+        <styledRenderContainer>
         <div className='render'>
             {
                 !loading && formData.map(generateFormHtml)
             }
         </div>
+        </styledRenderContainer>
     )
 }
 
